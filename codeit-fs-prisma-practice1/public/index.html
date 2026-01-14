@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prisma 연습</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      border-bottom: 3px solid #007bff;
+      padding-bottom: 10px;
+    }
+    .form-group {
+      margin: 20px 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #users {
+      margin-top: 30px;
+    }
+    .user-card {
+      background: #f8f9fa;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border-left: 4px solid #007bff;
+    }
+    .user-card h3 {
+      margin: 0 0 5px 0;
+      color: #007bff;
+    }
+    .user-card p {
+      margin: 5px 0;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>👥 유저 관리</h1>
+    
+    <div class="form-group">
+      <label>이메일</label>
+      <input type="email" id="email" placeholder="example@email.com">
+    </div>
+    
+    <div class="form-group">
+      <label>이름</label>
+      <input type="text" id="name" placeholder="홍길동">
+    </div>
+    
+    <button onclick="addUser()">유저 추가</button>
+    <button onclick="loadUsers()" style="background: #28a745">목록 새로고침</button>
+    
+    <div id="users"></div>
+  </div>
+
+  <script>
+    // 페이지 로드 시 유저 목록 불러오기
+    window.onload = () => loadUsers();
+
+    async function loadUsers() {
+      try {
+        const response = await fetch('/api/users');
+        const users = await response.json();
+        
+        const usersDiv = document.getElementById('users');
+        
+        if (users.length === 0) {
+          usersDiv.innerHTML = '<p style="text-align:center; color:#999;">등록된 유저가 없습니다.</p>';
+          return;
+        }
+        
+        usersDiv.innerHTML = users.map(user => `
+          <div class="user-card">
+            <h3>${user.name}</h3>
+            <p>📧 ${user.email}</p>
+            <p style="font-size:12px; color:#999;">
+              ID: ${user.id} | 
+              생성: ${new Date(user.createdAt).toLocaleString('ko-KR')}
+            </p>
+          </div>
+        `).join('');
+      } catch (error) {
+        alert('유저 목록을 불러오는데 실패했습니다: ' + error.message);
+      }
+    }
+
+    async function addUser() {
+      const email = document.getElementById('email').value;
+      const name = document.getElementById('name').value;
+      
+      if (!email || !name) {
+        alert('이메일과 이름을 모두 입력해주세요!');
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, name })
+        });
+        
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error);
+        }
+        
+        // 입력 필드 초기화
+        document.getElementById('email').value = '';
+        document.getElementById('name').value = '';
+        
+        // 목록 새로고침
+        loadUsers();
+        
+        alert('✅ 유저가 추가되었습니다!');
+      } catch (error) {
+        alert('❌ 유저 추가 실패: ' + error.message);
+      }
+    }
+  </script>
+</body>
+</html>

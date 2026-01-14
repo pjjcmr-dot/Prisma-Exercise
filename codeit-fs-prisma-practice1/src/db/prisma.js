@@ -1,9 +1,16 @@
-import { PrismaClient } from '#generated/prisma/client.ts';
+// src/db/prisma.js
+import { PrismaClient } from '../../generated/prisma/index.js';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { config } from '#config';
+import pg from 'pg';
 
-const adapter = new PrismaPg({
-  connectionString: config.DATABASE_URL,
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
 });
 
-export const prisma = new PrismaClient({ adapter });
+const adapter = new PrismaPg(pool);
+
+const prisma = new PrismaClient({
+  adapter,
+});
+
+export default prisma;

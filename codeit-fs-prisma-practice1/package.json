@@ -13,11 +13,11 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "nodemon --env-file=./env/.env.development src/server.js",
+    "dev": "node --env-file=.env src/server.js",
     "prod": "node --env-file=./env/.env.production src/server.js",
     "prisma:migrate": "dotenv -e ./env/.env.development -- npx prisma migrate dev",
     "prisma:studio": "dotenv -e ./env/.env.development -- npx prisma studio",
-    "prisma:generate": "dotenv -e ./env/.env.development -- npx prisma generate",
+    "prisma:generate": "dotenv -e .env -- npx prisma generate",
     "format": "npx prettier --write .",
     "format:check": "npx prettier --check ."
   },
