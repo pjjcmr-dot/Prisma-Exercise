@@ -4,8 +4,8 @@ const envSchema = z.object({
   NODE_ENV: z
     .enum(['development', 'production', 'test'])
     .default('development'),
-  PORT: z.coerce().number().min(1000).max(65535).default(5001), //코어스 뒤에 () 표시 해줘야 한다.
-  DATABASE_URL: z.url(),
+  PORT: z.coerce.number().min(1000).max(65535).default(5001), //코어스 뒤에 () 표시 해줘야 한다.
+  DATABASE_URL: z.string().min(1),
 });
 
 const parseEnvironment = () => {

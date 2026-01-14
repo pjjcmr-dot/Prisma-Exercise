@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Hello, Prisma!');
+  res.send('Hello, Prisma!'); // 화면 출력됨
 });
 
 app.listen(config.PORT, () => {
