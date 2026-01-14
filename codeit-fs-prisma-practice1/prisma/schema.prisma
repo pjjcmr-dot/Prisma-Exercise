@@ -1,0 +1,10 @@
+// Prisma Client 생성 설정
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma" // 지정 필수 없으면 에러 발생
+}
+
+// 데이터베이스 연결 설정
+datasource db {
+  provider = "postgresql" //Prisma CLI가 자동으로 환경 변수의 DATABASE_URL을 읽습니다
+}
