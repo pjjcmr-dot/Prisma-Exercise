@@ -1,0 +1,33 @@
+{
+  "name": "prisma-blog",
+  "version": "1.0.0",
+  "type": "module",
+  "imports": {
+    "#generated/*": "./generated/*",
+    "#config": "./src/config/config.js",
+    "#db/*": "./src/db/*"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "nodemon --env-file=./env/.env.development src/server.js",
+    "prod": "node --env-file=./env/.env.production src/server.js"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "dotenv": "^17.2.3",
+    "dotenv-cli": "^11.0.0",
+    "express": "^5.2.1",
+    "pg": "^8.17.1",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2",
+    "nodemon": "^3.1.11",
+    "prettier": "^3.8.0",
+    "prisma": "^7.2.0"
+  }
+}
