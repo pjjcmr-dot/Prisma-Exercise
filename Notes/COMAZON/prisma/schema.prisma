@@ -12,7 +12,7 @@ datasource db {
 
 // 사용자 테이블 정의
 model User {
-  id       String   @id @default(cuid()) //* 보안상 유리한 아이디  생성 cuid
+  id       String   @id @default(cuid()) // 보안상 유리한 아이디  생성 cuid //! String type 유저 아이디도 넘버가 아닌 스트링으로 모두 전환해야함 유저 레포지토리 특정사용자 조회 등 부분 수정 해야함 문자열 또는 숫자형 변경시 반드시
   email    String   @unique // 이메일 중복 불가 라는 뜻
   name     String? // 선택적
   posts    Post[] // 동일 이름 여러명 가능하다는 뜻 1:N
@@ -31,8 +31,3 @@ model Post {
   createAt  DateTime @default(now()) // 자동으로 션재시간 저장 기능
   updateAt  DateTime @updatedAt // 정보 수정될때 마다 자동으로 현재 시간으로 정보 업데이트
 }
-
-
-
-
-
