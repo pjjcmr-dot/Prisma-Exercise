@@ -3,7 +3,18 @@
   "version": "1.0.0",
   "description": "2-2. Prisma 스키마: 온라인강의를 버전 7로 연습하는 결과물 입니다.",
   "main": "index.js",
+  "type": "module",
+  "imports": {
+    "#generated/*": "./generated/*",
+    "#config": "./src/config/config.js",
+    "#db/*": "./src/db/*"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
+    "dev": "nodemon --env-file=./env/.env.development src/server.js",
+    "prod": "node --env-file=./env/.env.production src/server.js",
     "prisma:migrate": "dotenv -e ./env/.env.development -- npx prisma migrate dev",
     "prisma:studio": "dotenv -e ./env/.env.development -- npx prisma studio",
     "prisma:generate": "dotenv -e ./env/.env.development -- npx prisma generate",

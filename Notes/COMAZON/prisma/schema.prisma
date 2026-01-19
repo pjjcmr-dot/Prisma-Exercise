@@ -7,5 +7,27 @@ generator client {
 // 데이터베이스 연결 설정
 datasource db {
   provider = "postgresql"
-  
+  url      = env("DATABASE_URL")
+}
+
+// 사용자 테이블 정의
+model User {
+  id       String   @id @default(cuid()) // 보안상 유리한 아이디  생성 cuid
+  email    String   @unique // 이메일 중복 불가 라는 뜻
+  name     String
+  posts    Post[] // 동일 이름 여러명 가능하다는 뜻
+  createAt DateTime @default(now()) // 자동으로 션재시간 저장 기능
+  updateAt DateTime @updatedAt // 정보 수정될때 마다 자동으로 현재 시간으로 정보 업데이트
+}
+
+//게시글 테이블 정의
+model Post {
+  id        String   @id @default(cuid()) // 보안상 유리한 아이디  생성 cuid
+  title     String
+  content   String? // 선택적 필드, 게시글 내용을 비워둘 수 있음 
+  published Boolean  @default(false) // 게시글 비공개
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade) //이 게시글의 작성자 (User 모델 참조)
+  authorId  Int  // 작성자의 ID를 저장하는 실제 컬럼
+  createAt  DateTime @default(now()) // 자동으로 션재시간 저장 기능
+  updateAt  DateTime @updatedAt // 정보 수정될때 마다 자동으로 현재 시간으로 정보 업데이트
 }
