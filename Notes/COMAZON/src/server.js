@@ -1,14 +1,13 @@
 import express from 'express';
 import { prisma } from '#db/prisma.js';
 import { config } from '#config';
+import { router as apiRouter } from './routes/index.js';
 
 const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello,종장! 접속을 축하해');
-});
+app.use('/api', apiRouter); //! 기존 내용 삭제 후 수정
 
 app.listen(config.PORT, () => {
   console.log(
