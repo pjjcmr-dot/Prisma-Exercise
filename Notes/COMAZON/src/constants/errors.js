@@ -20,10 +20,13 @@ export const ERROR_MESSAGE = {
   POST_NOT_FOUND: 'Post not found',
   TITLE_REQUIRED: 'Title is required',
   AUTHOR_ID_REQUIRED: 'Author ID is required',
+  SEARCH_QUERY_REQUIRED: 'Search query is required', // 추가
   FAILED_TO_FETCH_POSTS: 'Failed to fetch posts',
   FAILED_TO_FETCH_POST: 'Failed to fetch post',
   FAILED_TO_CREATE_POST: 'Failed to create post!!!!!',
   FAILED_TO_UPDATE_POST: 'Failed to update post',
   FAILED_TO_DELETE_POST: 'Failed to delete post',
+  FAILED_TO_SEARCH_POSTS: 'Failed to search posts', // 추가
+  FAILED_TO_FETCH_PUBLISHED_POSTS: 'Failed to fetch published posts', // 추가
   FAILED_TO_FETCH_USER_WITH_POSTS: 'Failed to fetch user with posts',
 };

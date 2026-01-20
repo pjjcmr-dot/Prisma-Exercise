@@ -12,12 +12,12 @@ datasource db {
 
 // 사용자 테이블 정의
 model User {
-  id       String   @id @default(cuid()) // 보안상 유리한 아이디  생성 cuid //! String type 유저 아이디도 넘버가 아닌 스트링으로 모두 전환해야함 유저 레포지토리 특정사용자 조회 등 부분 수정 해야함 문자열 또는 숫자형 변경시 반드시
-  email    String   @unique // 이메일 중복 불가 라는 뜻
-  name     String? // 선택적
-  posts    Post[] // 동일 이름 여러명 가능하다는 뜻 1:N
-  createAt DateTime @default(now()) // 자동으로 션재시간 저장 기능
-  updateAt DateTime @updatedAt // 정보 수정될때 마다 자동으로 현재 시간으로 정보 업데이트
+  id        String   @id @default(cuid()) // 보안상 유리한 아이디  생성 cuid //! String type 유저 아이디도 넘버가 아닌 스트링으로 모두 전환해야함 유저 레포지토리 특정사용자 조회 등 부분 수정 해야함 문자열 또는 숫자형 변경시 반드시
+  email     String   @unique // 이메일 중복 불가 라는 뜻
+  name      String? // 선택적
+  posts     Post[] // 동일 이름 여러명 가능하다는 뜻 1:N
+  createdAt DateTime @default(now()) // 자동으로 션재시간 저장 기능
+  updatedAt DateTime @updatedAt // 정보 수정될때 마다 자동으로 현재 시간으로 정보 업데이트
 }
 
 //게시글 테이블 정의
@@ -28,6 +28,6 @@ model Post {
   published Boolean  @default(false) // 게시글 비공개
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade) //이 게시글의 작성자 (User 모델 참조)
   authorId  String // 작성자의 ID를 저장하는 실제 컬럼, 1:N //* Int → String으로 변경
-  createAt  DateTime @default(now()) // 자동으로 션재시간 저장 기능
-  updateAt  DateTime @updatedAt // 정보 수정될때 마다 자동으로 현재 시간으로 정보 업데이트
+  createdAt DateTime @default(now()) // 자동으로 션재시간 저장 기능
+  updatedAt DateTime @updatedAt // 정보 수정될때 마다 자동으로 현재 시간으로 정보 업데이트
 }

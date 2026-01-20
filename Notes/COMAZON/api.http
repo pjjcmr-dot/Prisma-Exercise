@@ -3,8 +3,7 @@ GET http://localhost:5015/api/users
 
 
 ### 특정 유저 조회 (id가 1인 유저)
-GET http://localhost:5015/api/users/cmkm2zlp60001esw1xtpt5grz
-
+GET http://localhost:5015/api/users/cmkmozkj60000j8w1zlz2h7cf
 ###
 
 ### 새 유저 생성
@@ -19,7 +18,7 @@ Content-Type: application/json
 ###
 
 ### 유저 수정
-PATCH http://localhost:5015/api/users/cmkm2zlp60001esw1xtpt5grz
+PATCH http://localhost:5015/api/users/cmkmozkj60000j8w1zlz2h7cf
 Content-Type: application/json
 
 {
@@ -47,7 +46,7 @@ GET http://localhost:5015/api/users/999
 
 
 ### 사용자와 게시글 함께 조회
-GET http://localhost:5015/api/users/cmkm2zlp60002esw188324j4x/posts
+GET http://localhost:5015/api/users/cmkmozkj80001j8w1eiklnp0k/posts
 
 
 ### 4. 모든 게시물 조회
@@ -60,11 +59,21 @@ Content-Type: application/json
 {
   "title": "제목",
   "content": "내용",
-  "authorId": "cmkm2zlp60002esw188324j4x" 
+  "authorId": "cmkmozkj90002j8w1jgebrnis" 
 }
 
 
+### 페이지네이션 테스트 1페이지 조회
+GET http://localhost:5015/api/posts?page=1&limit=5
 
-//Prisma 스키마에서 authorId는 Int 타입이므로 숫자로 보내야 합니다!
+
+### 페이지네이션 2페이지 조회
+GET http://localhost:5015/api/posts?page=2&limit=5
+
+### 검색 테스트
+GET http://localhost:5015/api/posts/search?q=JavaScript
+
+### 공개 게시글 조회
+GET http://localhost:5015/api/posts/published
 
 

@@ -4,17 +4,51 @@ import { HTTP_STATUS, PRISMA_ERROR, ERROR_MESSAGE } from '#constants';
 
 export const postsRouter = express.Router();
 
-// GET /api/posts - 모든 게시글 조회 (작성자 포함)
+// GET /api/posts - 모든 게시글 조회 (페이지네이션)
 postsRouter.get('/', async (req, res) => {
   try {
-    const posts = await postRepository.findAllPosts({
-      author: true,
-    });
-    res.json(posts);
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const result = await postRepository.getPostsWithPagination(page, limit);
+    res.json(result);
   } catch (_) {
     res
       .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
       .json({ error: ERROR_MESSAGE.FAILED_TO_FETCH_POSTS });
+  }
+});
+
+// GET /api/posts/search - 게시글 검색 (⚠️ /:id보다 위에)
+postsRouter.get('/search', async (req, res) => {
+  try {
+    const { q: search } = req.query;
+
+    if (!search) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
+        error: ERROR_MESSAGE.SEARCH_QUERY_REQUIRED,
+      });
+    }
+
+    const posts = await postRepository.searchPosts(search);
+    res.json({ posts });
+  } catch (_) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      error: ERROR_MESSAGE.FAILED_TO_SEARCH_POSTS,
+    });
+  }
+});
+
+// GET /api/posts/published - 공개 게시글만 조회 (⚠️ /:id보다 위에)
+postsRouter.get('/published', async (req, res) => {
+  try {
+    const posts = await postRepository.getPublishedPosts();
+    res.json({ posts });
+  } catch (error) {
+    console.error('Published posts error:', error); // 추가!
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      error: ERROR_MESSAGE.FAILED_TO_FETCH_PUBLISHED_POSTS,
+    });
   }
 });
 
@@ -44,7 +78,6 @@ postsRouter.get('/:id', async (req, res) => {
 postsRouter.post('/', async (req, res) => {
   try {
     const { title, content, published, authorId } = req.body;
-    console.log(title, content, published, authorId);
 
     if (!title) {
       return res
@@ -53,7 +86,6 @@ postsRouter.post('/', async (req, res) => {
     }
 
     if (!authorId) {
-      console.log(authorId);
       return res
         .status(HTTP_STATUS.BAD_REQUEST)
         .json({ error: ERROR_MESSAGE.AUTHOR_ID_REQUIRED });
@@ -63,7 +95,7 @@ postsRouter.post('/', async (req, res) => {
       title,
       content,
       published: published ?? false,
-      authorId: authorId,
+      authorId: Number(authorId),
     });
 
     res.status(HTTP_STATUS.CREATED).json(newPost);
