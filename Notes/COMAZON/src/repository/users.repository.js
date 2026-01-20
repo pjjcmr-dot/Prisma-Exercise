@@ -10,7 +10,7 @@ function createUser(data) {
 // 특정 사용자 조회
 function findUserById(id) {
   return prisma.user.findUnique({
-    where: { id: (id) }, // 아이디가 문자열의 경우 Number 제거
+    where: { id: id }, // 아이디가 문자열의 경우 Number 제거
   });
 }
 
@@ -22,7 +22,7 @@ function findAllUsers() {
 // 사용자 정보 수정
 function updateUser(id, data) {
   return prisma.user.update({
-    where: { id: (id) },
+    where: { id: id },
     data,
   });
 }
@@ -30,7 +30,26 @@ function updateUser(id, data) {
 // 사용자 삭제
 function deleteUser(id) {
   return prisma.user.delete({
-    where: { id: (id) },
+    where: { id: id },
+  });
+}
+
+//* 사용자와 게시글 함께 조회
+function findUserWithPosts(id) {
+  return prisma.user.findUnique({
+    where: { id: Number(id) },
+    include: {
+      posts: true,
+    },
+  });
+}
+
+//* 모든 사용자와 게시글 함께 조회
+function findAllUserWithPosts() {
+  return prisma.user.findMany({
+    include: {
+      posts: true,
+    },
   });
 }
 
@@ -40,4 +59,6 @@ export const userRepository = {
   findAllUsers,
   updateUser,
   deleteUser,
+  findUserWithPosts,
+  findAllUserWithPosts,
 };

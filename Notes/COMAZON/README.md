@@ -106,10 +106,11 @@ npm run prisma:studio    # Prisma Studio 실행
 npm run dev              # 개발 서버 실행
 ```
 
-## 다음 단계
+TODO: migrations // 데이터베이스 구조 변경 이력을 관리하고 실행하는 도구
+ㄴnpm run prisma:generate // 데이터베이스 변경때마다 새로 실행
+ㄴnpm run prisma:migrate dev //개발 중 migration 생성 및 적용
+ㄴnpm run prisma:migrate deploy //프로덕션에 migration 적용
+ㄴnpm run prisma:migrate reset //DB 초기화 후 모든 migration 재실행
 
-이제 데이터베이스 테이블이 생성되었습니다. 다음 강의에서는:
-
-- 마이그레이션의 동작 원리 학습
-- 시딩(Seeding)으로 테스트 데이터 생성
-- Prisma Client로 CRUD 작업 수행
+TODO: generated //Prisma Client 코드를 자동 생성하는 명령어입니다.
+ㄴ설계도 = schema.prisma 파일을 보고 실제 작업 도구 = @prisma/client (JavaScript/TypeScript 코드)를 만드는 것
