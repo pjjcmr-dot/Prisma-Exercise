@@ -29,4 +29,15 @@ export const ERROR_MESSAGE = {
   FAILED_TO_SEARCH_POSTS: 'Failed to search posts', // 추가
   FAILED_TO_FETCH_PUBLISHED_POSTS: 'Failed to fetch published posts', // 추가
   FAILED_TO_FETCH_USER_WITH_POSTS: 'Failed to fetch user with posts',
+  FAILED_TO_DELETE_POST_WITH_COMMENTS: 'Failed to delete post with comments', // 추가
+  FAILED_TO_CREATE_POST_WITH_COMMENT: 'Failed to create post with comment', // 추가
+  FAILED_TO_CREATE_MULTIPLE_POSTS: 'Failed to create multiple posts', // 추가
+  POSTS_ARRAY_REQUIRED: 'Posts array is required', // 추가
+  INVALID_POSTS_ARRAY: 'Posts must be an array', // 추가
+  
+  // Comment 관련 (새로 추가)
+  COMMENT_NOT_FOUND: 'Comment not found',
+  COMMENT_CONTENT_REQUIRED: 'Comment content is required',
+  FAILED_TO_CREATE_COMMENT: 'Failed to create comment',
+  FAILED_TO_DELETE_COMMENT: 'Failed to delete comment',
 };

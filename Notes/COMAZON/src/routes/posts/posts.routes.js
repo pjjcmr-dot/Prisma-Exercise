@@ -95,11 +95,12 @@ postsRouter.post('/', async (req, res) => {
       title,
       content,
       published: published ?? false,
-      authorId: Number(authorId),
+      authorId: authorId,
     });
 
     res.status(HTTP_STATUS.CREATED).json(newPost);
-  } catch (_) {
+  } catch (error) {
+    console.error('Create posts error', error); // 실사용을 위하여 error 추가
     res
       .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
       .json({ error: ERROR_MESSAGE.FAILED_TO_CREATE_POST });

@@ -11,8 +11,8 @@ POST http://localhost:5015/api/users
 Content-Type: application/json
 
 {
-  "email": "ew@example.com",
-  "name": "테스트1"
+ "email": "hong@example.com",
+  "name": "홍길동"
 }
 
 ###
@@ -57,9 +57,10 @@ POST http://localhost:5015/api/posts
 Content-Type: application/json
 
 {
-  "title": "제목",
-  "content": "내용",
-  "authorId": "cmkmozkj90002j8w1jgebrnis" 
+  "title": "JavaScript 기초",
+  "content": "JavaScript는 프로그래밍 언어입니다",
+  "published": true,
+  "authorId": "cmkmph7ch000bmsw189z0pvqh" 
 }
 
 
@@ -71,9 +72,10 @@ GET http://localhost:5015/api/posts?page=1&limit=5
 GET http://localhost:5015/api/posts?page=2&limit=5
 
 ### 검색 테스트
-GET http://localhost:5015/api/posts/search?q=JavaScript
+GET http://localhost:5015/api/posts/search?q=JavaScriptgh
 
 ### 공개 게시글 조회
 GET http://localhost:5015/api/posts/published
 
-
+###
+GET /api/posts?published=true&authorId=1&page=2&limit=5&sortBy=createdAt&order=desc
