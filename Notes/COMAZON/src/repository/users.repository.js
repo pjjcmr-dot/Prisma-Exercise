@@ -37,7 +37,7 @@ function deleteUser(id) {
 //* 사용자와 게시글 함께 조회
 function findUserWithPosts(id) {
   return prisma.user.findUnique({
-    where: { id: Number(id) },
+    where: { id: id },
     include: {
       posts: true,
     },
@@ -62,3 +62,5 @@ export const userRepository = {
   findUserWithPosts,
   findAllUserWithPosts,
 };
+
+export const usersRepository = userRepository;

@@ -22,7 +22,7 @@ export const ERROR_MESSAGE = {
   AUTHOR_ID_REQUIRED: 'Author ID is required',
   FAILED_TO_FETCH_POSTS: 'Failed to fetch posts',
   FAILED_TO_FETCH_POST: 'Failed to fetch post',
-  FAILED_TO_CREATE_POST: 'Failed to create post',
+  FAILED_TO_CREATE_POST: 'Failed to create post!!!!!',
   FAILED_TO_UPDATE_POST: 'Failed to update post',
   FAILED_TO_DELETE_POST: 'Failed to delete post',
   FAILED_TO_FETCH_USER_WITH_POSTS: 'Failed to fetch user with posts',

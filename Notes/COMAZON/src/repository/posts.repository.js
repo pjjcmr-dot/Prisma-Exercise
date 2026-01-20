@@ -10,7 +10,7 @@ function createPost(data) {
 // 특정 게시글 조회
 function findPostById(id, include = null) {
   return prisma.post.findUnique({
-    where: { id: Number(id) },
+    where: { id: (id) },
     ...(include && { include }),
   });
 }
@@ -25,7 +25,7 @@ function findAllPosts(include = null) {
 // 게시글 정보 수정
 function updatePost(id, data) {
   return prisma.post.update({
-    where: { id: Number(id) },
+    where: { id: (id) },
     data,
   });
 }
@@ -33,7 +33,26 @@ function updatePost(id, data) {
 // 게시글 삭제
 function deletePost(id) {
   return prisma.post.delete({
-    where: { id: Number(id) },
+    where: { id: (id) },
+  });
+}
+
+//* 사용자와 게시글 함께 조회
+function findUserWithPosts(id) {
+  return prisma.user.findUnique({
+    where: { id: (id) },
+    include: {
+      posts: true,
+    },
+  });
+}
+
+//* 모든 사용자와 게시글 함께 조회
+function findAllUserWithPosts() {
+  return prisma.user.findMany({
+    include: {
+      posts: true,
+    },
   });
 }
 
@@ -43,4 +62,6 @@ export const postRepository = {
   findAllPosts,
   updatePost,
   deletePost,
+  findUserWithPosts,
+  findAllUserWithPosts,
 };

@@ -44,6 +44,7 @@ postsRouter.get('/:id', async (req, res) => {
 postsRouter.post('/', async (req, res) => {
   try {
     const { title, content, published, authorId } = req.body;
+    console.log(title, content, published, authorId);
 
     if (!title) {
       return res
@@ -52,6 +53,7 @@ postsRouter.post('/', async (req, res) => {
     }
 
     if (!authorId) {
+      console.log(authorId);
       return res
         .status(HTTP_STATUS.BAD_REQUEST)
         .json({ error: ERROR_MESSAGE.AUTHOR_ID_REQUIRED });
@@ -61,7 +63,7 @@ postsRouter.post('/', async (req, res) => {
       title,
       content,
       published: published ?? false,
-      authorId: Number(authorId),
+      authorId: authorId,
     });
 
     res.status(HTTP_STATUS.CREATED).json(newPost);

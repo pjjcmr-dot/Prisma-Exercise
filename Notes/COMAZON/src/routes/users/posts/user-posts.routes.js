@@ -13,7 +13,7 @@ userPostsRouter.get('/', async (req, res) => {
   try {
     // mergeParams 덕분에 부모의 :id를 사용 가능
     const { id } = req.params;
-    const user = await usersRepository.findUserWithPosts(Number(id));
+    const user = await usersRepository.findUserWithPosts(id); //! 문자열은 Number 삭제 => findUserWithPosts((Numberid))
 
     if (!user) {
       return res
@@ -22,7 +22,8 @@ userPostsRouter.get('/', async (req, res) => {
     }
 
     res.json(user);
-  } catch (_) {
+  } catch (error) {
+    console.log(error);
     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
       error: ERROR_MESSAGE.FAILED_TO_FETCH_USER_WITH_POSTS,
     });
