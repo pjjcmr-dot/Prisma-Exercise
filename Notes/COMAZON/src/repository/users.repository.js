@@ -34,7 +34,7 @@ function deleteUser(id) {
   });
 }
 
-//* 사용자와 게시글 함께 조회
+//*! 사용자와 게시글 함께 조회
 function findUserWithPosts(id) {
   return prisma.user.findUnique({
     where: { id: id },
@@ -44,12 +44,19 @@ function findUserWithPosts(id) {
   });
 }
 
-//* 모든 사용자와 게시글 함께 조회
+//*! 모든 사용자와 게시글 함께 조회
 function findAllUserWithPosts() {
   return prisma.user.findMany({
     include: {
       posts: true,
     },
+  });
+}
+
+//! 이메일로 사용자 조회 (추가)
+function findUserByEmail(email) {
+  return prisma.user.findUnique({
+    where: { email },
   });
 }
 
@@ -61,6 +68,7 @@ export const userRepository = {
   deleteUser,
   findUserWithPosts,
   findAllUserWithPosts,
+  findUserByEmail, // 추가
 };
 
 export const usersRepository = userRepository;

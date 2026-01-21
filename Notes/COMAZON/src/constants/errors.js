@@ -9,6 +9,7 @@ export const ERROR_MESSAGE = {
   // User 관련
   USER_NOT_FOUND: 'User not found',
   EMAIL_REQUIRED: 'Email is required',
+  PASSWORD_REQUIRED: 'Password is required', //! 추가
   EMAIL_ALREADY_EXISTS: 'Email already exists',
   FAILED_TO_FETCH_USERS: 'Failed to fetch users',
   FAILED_TO_FETCH_USER: 'Failed to fetch user',
@@ -34,10 +35,21 @@ export const ERROR_MESSAGE = {
   FAILED_TO_CREATE_MULTIPLE_POSTS: 'Failed to create multiple posts', // 추가
   POSTS_ARRAY_REQUIRED: 'Posts array is required', // 추가
   INVALID_POSTS_ARRAY: 'Posts must be an array', // 추가
-  
+
   // Comment 관련 (새로 추가)
   COMMENT_NOT_FOUND: 'Comment not found',
   COMMENT_CONTENT_REQUIRED: 'Comment content is required',
   FAILED_TO_CREATE_COMMENT: 'Failed to create comment',
   FAILED_TO_DELETE_COMMENT: 'Failed to delete comment',
+
+  //! Auth 관련 (추가)
+  NO_AUTH_TOKEN: 'No authentication token provided',
+  INVALID_TOKEN: 'Invalid or expired token',
+  USER_NOT_FOUND_FROM_TOKEN: 'User not found from token',
+  AUTH_FAILED: 'Authentication failed',
+  INVALID_CREDENTIALS: 'Invalid email or password',
+
+  //! Validation 관련 (추가)
+  INVALID_INPUT: 'Invalid input',
+  VALIDATION_FAILED: 'Validation failed',
 };

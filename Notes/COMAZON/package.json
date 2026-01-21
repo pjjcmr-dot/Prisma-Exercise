@@ -12,7 +12,9 @@
     "#routes/*": "./src/routes/*",
     "#generated/*": "./generated/*",
     "#config": "./src/config/config.js",
-    "#db/*": "./src/db/*"
+    "#db/*": "./src/db/*",
+    "#utils/*": "./src/utils/*",
+    "#middlewares/*": "./src/middlewares/*"
   },
   "engines": {
     "node": ">=22.0.0"
@@ -20,6 +22,7 @@
   "scripts": {
     "dev": "nodemon --env-file=./env/.env.development src/server.js",
     "prod": "node --env-file=./env/.env.production src/server.js",
+    "prisma:push": "dotenv -e ./env/.env.development -- npx prisma db push --force-reset",
     "prisma:migrate": "dotenv -e ./env/.env.development -- npx prisma migrate dev",
     "prisma:reset": "dotenv -e ./env/.env.development -- npx prisma migrate reset",
     "prisma:studio": "dotenv -e ./env/.env.development -- npx prisma studio",
@@ -34,9 +37,12 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "dotenv-cli": "^11.0.0",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.17.1",
     "zod": "^4.3.5"
   },

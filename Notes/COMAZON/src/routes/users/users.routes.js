@@ -39,9 +39,15 @@ usersRouter.get('/:id', async (req, res) => {
 // POST /api/users - 새 사용자 생성
 usersRouter.post('/', async (req, res) => {
   try {
-    const { email, name } = req.body;
+    const { email, name, password } = req.body;
 
     if (!email) {
+      return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json({ error: ERROR_MESSAGE.EMAIL_REQUIRED });
+    }
+
+    if (!password) {
       return res
         .status(HTTP_STATUS.BAD_REQUEST)
         .json({ error: ERROR_MESSAGE.EMAIL_REQUIRED });
@@ -50,10 +56,13 @@ usersRouter.post('/', async (req, res) => {
     const newUser = await userRepository.createUser({
       email,
       name,
+      password,
     });
 
     res.status(HTTP_STATUS.CREATED).json(newUser);
   } catch (error) {
+    console.error('User 생성 에러:', error)
+    
     // Prisma 에러: 이메일 중복 (unique constraint)
     if (error.code === PRISMA_ERROR.UNIQUE_CONSTRAINT) {
       return res.status(HTTP_STATUS.CONFLICT).json({

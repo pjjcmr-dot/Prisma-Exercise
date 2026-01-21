@@ -3,7 +3,7 @@ GET http://localhost:5015/api/users
 
 
 ### 특정 유저 조회 (id가 1인 유저)
-GET http://localhost:5015/api/users/cmknj1dhp0000bow1ritwv062
+GET http://localhost:5015/api/users/cmkntzh7k000154w1ta1zg3ms
 ###
 
 ### 새 유저 생성
@@ -11,14 +11,15 @@ POST http://localhost:5015/api/users
 Content-Type: application/json
 
 {
-  "email": "tes1t@test.com",
-  "name": "홍길동"
+  "email": "pjjkdd@test.com",
+  "name": "미스터 장",
+  "password": "password123"
 }
 
 ###
 
 ### 유저 수정
-PATCH http://localhost:5015/api/users/cmknj1dhp0000bow1ritwv062
+PATCH http://localhost:5015/api/users/cmkntzh7h000054w1lsov50he
 Content-Type: application/json
 
 {
@@ -36,8 +37,9 @@ POST http://localhost:5015/api/users
 Content-Type: application/json
 
 {
-  "email": "alsisce1234@example.com",
-  "name": "테스트2"
+  "email": "alslisce4@example.com",
+  "name": "테스트4",
+  "password": "password123"
 }
 
 ### 존재하지 않는 사용자 조회
@@ -46,7 +48,7 @@ GET http://localhost:5015/api/users/999
 
 
 ### 사용자와 게시글 함께 조회
-GET http://localhost:5015/api/users/cmknj1dhp0000bow1ritwv062/posts
+GET http://localhost:5015/api/users/cmkntzh7h000054w1lsov50he/posts
 
 
 ### 4. 모든 게시물 조회
@@ -60,7 +62,7 @@ Content-Type: application/json
   "title": "JavaScript 기초",
   "content": "JavaScript는 프로그래밍 언어입니다",
   "published": true,
-  "authorId": "cmknj1dhp0000bow1ritwv062" 
+  "authorId": "cmkntzh7h000054w1lsov50he" 
 }
 
 
@@ -86,7 +88,7 @@ POST http://localhost:5015/api/posts/with-comment
 Content-Type: application/json
 
 {
-  "authorId": "cmknja5hg000m1cw17pqq20j3",
+  "authorId": "cmkntzh7h000054w1lsov50he",
   "title": "트랜잭션 테스트",
   "content": "게시글 내용",
   "commentContent": "첫 댓글입니다!"
@@ -94,12 +96,12 @@ Content-Type: application/json
 
 
 ### 게시글과 댓글 함께 삭제
-DELETE http://localhost:5015/api/posts/cmknjvky600005kw1n5issxm2/with-comments
+DELETE http://localhost:5015/api/posts/cmknuzjl90005eow1ju8nmekz/with-comments
 
 {
   "message": "게시글과 댓글이 삭제되었습니다.",
   "deletedPost": {
-    "id": "cmknjvky600005kw1n5issxm2",
+    "id": "cmkntzh7h000054w1lsov50he",
     "title": "Alice의 첫 번째 글"
   },
   "deletedCommentsCount": 1
@@ -116,19 +118,19 @@ Content-Type: application/json
       "title": "배치 게시글 1",
       "content": "내용 1",
       "published": true,
-      "authorId": "cmknja5hg000m1cw17pqq20j3"
+      "authorId": "cmkntzh7k000154w1ta1zg3ms"
     },
     {
       "title": "배치 게시글 2",
       "content": "내용 2",
       "published": false,
-      "authorId": "cmknja5hg000m1cw17pqq20j3"
+      "authorId": "cmkntzh7k000154w1ta1zg3ms"
     },
     {
       "title": "배치 게시글 3",
       "content": "내용 3",
       "published": true,
-      "authorId": "cmknja5hg000m1cw17pqq20j3"
+      "authorId": "cmkntzh7k000154w1ta1zg3ms"
     }
   ]
 }
