@@ -135,3 +135,41 @@ Content-Type: application/json
   ]
 }
 
+
+
+// 새 계정 회원가입
+curl -X POST http://localhost:5015/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "newuser@example.com",
+    "password": "mypassword123",
+    "name": "새로운 사용자"
+  }'
+
+// 방금 가입한 계정으로 로그인
+curl -X POST http://localhost:5015/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "newuser@example.com",
+    "password": "mypassword123"
+  }'
+
+  //기존 계정 로그인
+  curl -X POST http://localhost:5015/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "password": "password123"
+  }'
+
+
+
+
+
+
+
+
+
+
+
+

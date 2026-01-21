@@ -29,3 +29,43 @@ process.on('SIGINT', async () => {
   await prisma.$disconnect();
   process.exit(0);
 });
+
+//! 회원가입 테스트
+//성공케이스
+/* curl -X POST http://localhost:5001/api/auth/signup \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "test@example.com",
+  "password": "password123",
+  "name": "테스트"
+}' */
+
+//유효성 검사 실패
+/*
+curl -X POST http://localhost:5015/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "invalid-email",
+    "password": "123"
+  }'
+*/
+
+//이메일 중복
+/*
+curl -X POST http://localhost:5015/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "password": "password123"
+  }'
+*/
+
+//! 로그인 테스트
+/*
+curl -X POST http://localhost:5015/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "password": "password123"
+  }'
+*/
