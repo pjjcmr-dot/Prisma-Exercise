@@ -3,7 +3,7 @@ GET http://localhost:5015/api/users
 
 
 ### 특정 유저 조회 (id가 1인 유저)
-GET http://localhost:5015/api/users/cmkmozkj60000j8w1zlz2h7cf
+GET http://localhost:5015/api/users/cmknj1dhp0000bow1ritwv062
 ###
 
 ### 새 유저 생성
@@ -11,14 +11,14 @@ POST http://localhost:5015/api/users
 Content-Type: application/json
 
 {
- "email": "hong@example.com",
+  "email": "tes1t@test.com",
   "name": "홍길동"
 }
 
 ###
 
 ### 유저 수정
-PATCH http://localhost:5015/api/users/cmkmozkj60000j8w1zlz2h7cf
+PATCH http://localhost:5015/api/users/cmknj1dhp0000bow1ritwv062
 Content-Type: application/json
 
 {
@@ -46,7 +46,7 @@ GET http://localhost:5015/api/users/999
 
 
 ### 사용자와 게시글 함께 조회
-GET http://localhost:5015/api/users/cmkmozkj80001j8w1eiklnp0k/posts
+GET http://localhost:5015/api/users/cmknj1dhp0000bow1ritwv062/posts
 
 
 ### 4. 모든 게시물 조회
@@ -60,7 +60,7 @@ Content-Type: application/json
   "title": "JavaScript 기초",
   "content": "JavaScript는 프로그래밍 언어입니다",
   "published": true,
-  "authorId": "cmkmph7ch000bmsw189z0pvqh" 
+  "authorId": "cmknj1dhp0000bow1ritwv062" 
 }
 
 
@@ -72,10 +72,64 @@ GET http://localhost:5015/api/posts?page=1&limit=5
 GET http://localhost:5015/api/posts?page=2&limit=5
 
 ### 검색 테스트
-GET http://localhost:5015/api/posts/search?q=JavaScriptgh
+GET http://localhost:5015/api/posts/search?q=JavaScript
 
 ### 공개 게시글 조회
 GET http://localhost:5015/api/posts/published
 
-###
+### 모지 ? 
 GET /api/posts?published=true&authorId=1&page=2&limit=5&sortBy=createdAt&order=desc
+
+
+### 게시글과 댓글 함께 생성
+POST http://localhost:5015/api/posts/with-comment
+Content-Type: application/json
+
+{
+  "authorId": "cmknja5hg000m1cw17pqq20j3",
+  "title": "트랜잭션 테스트",
+  "content": "게시글 내용",
+  "commentContent": "첫 댓글입니다!"
+}
+
+
+### 게시글과 댓글 함께 삭제
+DELETE http://localhost:5015/api/posts/cmknjvky600005kw1n5issxm2/with-comments
+
+{
+  "message": "게시글과 댓글이 삭제되었습니다.",
+  "deletedPost": {
+    "id": "cmknjvky600005kw1n5issxm2",
+    "title": "Alice의 첫 번째 글"
+  },
+  "deletedCommentsCount": 1
+}
+
+### 여러 게시글 일괄  생성
+
+POST http://localhost:5015/api/posts/batch
+Content-Type: application/json
+
+{
+  "posts": [
+    {
+      "title": "배치 게시글 1",
+      "content": "내용 1",
+      "published": true,
+      "authorId": "cmknja5hg000m1cw17pqq20j3"
+    },
+    {
+      "title": "배치 게시글 2",
+      "content": "내용 2",
+      "published": false,
+      "authorId": "cmknja5hg000m1cw17pqq20j3"
+    },
+    {
+      "title": "배치 게시글 3",
+      "content": "내용 3",
+      "published": true,
+      "authorId": "cmknja5hg000m1cw17pqq20j3"
+    }
+  ]
+}
+

@@ -115,17 +115,17 @@ async function deleteWithComments(postId) {
   return await prisma.$transaction(async (tx) => {
     // 1. 댓글 수 확인 (로깅용)
     const commentCount = await tx.comment.count({
-      where: { postId: Number(postId) },
+      where: { postId: postId },
     });
 
     // 2. 댓글 삭제
     await tx.comment.deleteMany({
-      where: { postId: Number(postId) },
+      where: { postId: postId },
     });
 
     // 3. 게시글 삭제
     const deletedPost = await tx.post.delete({
-      where: { id: Number(postId) },
+      where: { id: postId },
     });
 
     return {
@@ -142,18 +142,18 @@ async function createWithComment(authorId, postData, commentContent) {
     const post = await tx.post.create({
       data: {
         ...postData,
-        authorId: Number(authorId),
+        authorId: authorId,
       },
-    });
+    }); // Int => String
 
     // 2. 첫 댓글 생성
     const comment = await tx.comment.create({
       data: {
         content: commentContent,
-        authorId: Number(authorId),
+        authorId: authorId,
         postId: post.id,
       },
-    });
+    }); // Int => String
 
     return {
       post,
@@ -171,7 +171,7 @@ async function createMultiple(posts) {
           title: post.title,
           content: post.content,
           published: post.published ?? false,
-          authorId: Number(post.authorId),
+          authorId: post.authorId,
         },
         select: { id: true, title: true },
       }),

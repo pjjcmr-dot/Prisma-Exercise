@@ -53,9 +53,6 @@ npm run dev
 npm run prisma:studio
 ```
 
-## 주요 변경사항 (01-setup → 02-schema-models)
-
-### 1. schema.prisma에 모델 추가
 
 **User 모델:**
 
@@ -114,3 +111,17 @@ TODO: migrations // 데이터베이스 구조 변경 이력을 관리하고 실�
 
 TODO: generated //Prisma Client 코드를 자동 생성하는 명령어입니다.
 ㄴ설계도 = schema.prisma 파일을 보고 실제 작업 도구 = @prisma/client (JavaScript/TypeScript 코드)를 만드는 것
+
+TODO: 인증(Authentication)
+
+카페 입장:
+1. 신분증 제시 (로그인)
+2. 직원이 신분증 확인 (인증)
+3. 팔찌 착용 (토큰 발급)
+4. 팔찌로 자유롭게 출입 (인증된 요청)
+
+// 인증이 필요한 작업들
+- 내 프로필 조회/수정
+- 게시글 작성/수정/삭제
+- 댓글 작성/수정/삭제
+- 좋아요/팔로우

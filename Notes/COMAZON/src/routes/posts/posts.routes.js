@@ -149,3 +149,104 @@ postsRouter.delete('/:id', async (req, res) => {
       .json({ error: ERROR_MESSAGE.FAILED_TO_DELETE_POST });
   }
 });
+
+//! POST /api/posts/with-comment - 게시글과 댓글 함께 생성
+postsRouter.post("/with-comment", async (req, res) => {
+  try {
+    const { authorId, title, content, commentContent } =
+      req.body;
+
+    if (!authorId) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
+        error: ERROR_MESSAGE.AUTHOR_ID_REQUIRED,
+      });
+    }
+
+    if (!title) {
+      return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json({ error: ERROR_MESSAGE.TITLE_REQUIRED });
+    }
+
+    if (!commentContent) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
+        error: ERROR_MESSAGE.COMMENT_CONTENT_REQUIRED,
+      });
+    }
+
+    const result = await postRepository.createWithComment(
+      authorId,
+      { title, content, published: true },
+      commentContent
+    );
+
+    res.status(HTTP_STATUS.CREATED).json({
+      message: "게시글과 댓글이 함께 생성되었습니다.",
+      ...result,
+    });
+  } catch (_) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      error:
+        ERROR_MESSAGE.FAILED_TO_CREATE_POST_WITH_COMMENT,
+    });
+  }
+});
+
+// POST /api/posts/batch - 여러 게시글 일괄 생성
+postsRouter.post("/batch", async (req, res) => {
+  try {
+    const { posts } = req.body;
+
+    if (!posts) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
+        error: ERROR_MESSAGE.POSTS_ARRAY_REQUIRED,
+      });
+    }
+
+    if (!Array.isArray(posts)) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
+        error: ERROR_MESSAGE.INVALID_POSTS_ARRAY,
+      });
+    }
+
+    const result = await postRepository.createMultiple(
+      posts
+    );
+
+    res.status(HTTP_STATUS.CREATED).json({
+      message: `${result.length}개의 게시글이 생성되었습니다.`,
+      posts: result,
+    });
+  } catch (_) {
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      error: ERROR_MESSAGE.FAILED_TO_CREATE_MULTIPLE_POSTS,
+    });
+  }
+});
+
+// DELETE /api/posts/:id/with-comments - 게시글과 댓글 함께 삭제
+postsRouter.delete(
+  "/:id/with-comments",
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const result =
+        await postRepository.deleteWithComments(id);
+
+      res.json({
+        message: "게시글과 댓글이 삭제되었습니다.",
+        ...result,
+      });
+    } catch (error) {
+      if (error.code === PRISMA_ERROR.RECORD_NOT_FOUND) {
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .json({ error: ERROR_MESSAGE.POST_NOT_FOUND });
+      }
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+        error:
+          ERROR_MESSAGE.FAILED_TO_DELETE_POST_WITH_COMMENTS,
+      });
+    }
+  }
+);
