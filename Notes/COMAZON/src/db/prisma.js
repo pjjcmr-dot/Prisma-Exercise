@@ -16,4 +16,5 @@ const adapter = new PrismaPg(pool);
 // const adapter = new PrismaPg({
 //   connectionString: config.DATABASE_URL,
 
+// Prisma 클라이언트 생성
 export const prisma = new PrismaClient({ adapter });
