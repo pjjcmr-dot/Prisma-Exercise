@@ -12,7 +12,6 @@ export const validate = (schema) => (req, res, next) => {
 
     // 프로덕션 환경: 상세 규칙/메시지를 숨기고, 어떤 필드가 문제인지 정도만 제공
     if (isProduction) {
-      
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
         message: ERROR_MESSAGE.INVALID_INPUT,
@@ -20,7 +19,7 @@ export const validate = (schema) => (req, res, next) => {
         formErrors,
       });
     }
-    
+
     // 개발 환경: 필드별 상세 에러 메시지 전체 반환 (디버깅)
     return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
