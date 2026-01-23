@@ -136,8 +136,8 @@ Content-Type: application/json
 }
 
 
-
 // 새 계정 회원가입
+### 
 curl -X POST http://localhost:5015/api/auth/signup \
   -H "Content-Type: application/json" \
   -d '{
@@ -147,6 +147,7 @@ curl -X POST http://localhost:5015/api/auth/signup \
   }'
 
 // 방금 가입한 계정으로 로그인
+### 
 curl -X POST http://localhost:5015/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
@@ -154,7 +155,8 @@ curl -X POST http://localhost:5015/api/auth/login \
     "password": "mypassword123"
   }'
 
-  //기존 계정 로그인
+//기존 계정 로그인
+### 
   curl -X POST http://localhost:5015/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
