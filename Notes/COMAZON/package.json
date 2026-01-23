@@ -14,7 +14,9 @@
     "#config": "./src/config/config.js",
     "#db/*": "./src/db/*",
     "#utils/*": "./src/utils/*",
-    "#middlewares/*": "./src/middlewares/*"
+    "#middlewares": "./src/middlewares/index.js",
+    "#exceptions": "./sec/exceptions/index.js"
+
   },
   "engines": {
     "node": ">=22.0.0"

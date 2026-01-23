@@ -1,38 +1,43 @@
 import { isProduction } from '#config';
 import { flattenError } from 'zod';
-import { HTTP_STATUS, ERROR_MESSAGE } from '#constants';
+import { BadRequestException } from '#exceptions';
+import { ERROR_MESSAGE } from '#constants';
 
-export const validate = (schema) => (req, res, next) => {
-  // safeParse를 사용하여 에러를 직접 제어
-  const result = schema.safeParse(req.body);
-
-  if (!result.success) {
-    // Zod 에러를 flatten하여 필드별로 정리
-    const { fieldErrors, formErrors } = flattenError(result.error);
-
-    // 프로덕션 환경: 상세 규칙/메시지를 숨기고, 어떤 필드가 문제인지 정도만 제공
-    if (isProduction) {
-      return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        success: false,
-        message: ERROR_MESSAGE.INVALID_INPUT,
-        invalidFields: Object.keys(fieldErrors),
-        formErrors,
-      });
-    }
-
-    // 개발 환경: 필드별 상세 에러 메시지 전체 반환 (디버깅)
-    return res.status(HTTP_STATUS.BAD_REQUEST).json({
-      success: false,
-      message: ERROR_MESSAGE.VALIDATION_FAILED,
-      details: fieldErrors,
-      formErrors,
-    });
+/**
+ * 범용 검증 미들웨어
+ * @param {string} target - 검증할 대상 ('body', 'params', 'query')
+ * @param {ZodSchema} schema - Zod 스키마
+ */
+export const validate = (target, schema) => {
+  // 서버 시작 시점에 target 검증 (Fail-fast)
+  if (!['body', 'query', 'params'].includes(target)) {
+    throw new Error(
+      `[validate middleware] Invalid target: "${target}". Expected "body", "query", or "params".`,
+    );
   }
 
-  // 중요: 검증/변환된 데이터를 req.body에 재할당
-  // Zod의 parse()는 불필요한 필드 제거, 데이터 변환(coerce) 등을 수행
-  // 이 과정을 거쳐야 컨트롤러에서 '깨끗한' 데이터만 사용 가능
-  req.body = result.data;
+  return (req, res, next) => {
+    try {
+      const result = schema.safeParse(req[target]);
 
-  next();
+      if (!result.success) {
+        const { fieldErrors } = flattenError(result.error);
+
+        if (isProduction) {
+          throw new BadRequestException(ERROR_MESSAGE.INVALID_INPUT);
+        }
+
+        // 개발 환경: 생성자에 details 전달
+        throw new BadRequestException(
+          ERROR_MESSAGE.VALIDATION_FAILED,
+          fieldErrors,
+        );
+      }
+
+      Object.assign(req[target], result.data); // 검증된 데이터로 교체 (타입 변환 포함)
+      next();
+    } catch (error) {
+      next(error); // 에러 핸들러로 전달
+    }
+  };
 };
