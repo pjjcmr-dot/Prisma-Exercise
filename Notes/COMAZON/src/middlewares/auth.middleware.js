@@ -1,50 +1,40 @@
-//! 인증 미들웨어 구현
-
-import { verifyToken } from '../utils/jwt.util.js';
-import { prisma } from '#db/prisma.js';
-import { HTTP_STATUS, ERROR_MESSAGE } from '#constants';
+import {
+  verifyToken,
+  shouldRefreshToken,
+  refreshTokens,
+  setAuthCookies,
+} from '#utils';
+import { ERROR_MESSAGE } from '#constants';
+import { UnauthorizedException } from '#exceptions';
 
 export const authMiddleware = async (req, res, next) => {
   try {
-    // 1. 쿠키에서 Access Token 추출
-    const { accessToken } = req.cookies;
+    const { accessToken, refreshToken } = req.cookies;
 
+    // 1. 액세스 토큰 없음
     if (!accessToken) {
-      return res
-        .status(HTTP_STATUS.UNAUTHORIZED)
-        .json({ error: ERROR_MESSAGE.NO_AUTH_TOKEN });
+      throw new UnauthorizedException(ERROR_MESSAGE.NO_AUTH_TOKEN);
     }
 
-    // 2. 토큰 검증
+    // 2. 페이로드 검증
     const payload = verifyToken(accessToken, 'access');
-
     if (!payload) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        error: ERROR_MESSAGE.INVALID_TOKEN,
-      });
+      throw new UnauthorizedException(ERROR_MESSAGE.INVALID_TOKEN);
     }
 
-    // 3. 사용자 조회
-    const user = await prisma.user.findUnique({
-      where: { id: payload.userId },
-      select: { id: true, email: true, name: true },
-    });
+    // 3. DB 조회 없이 토큰의 userId만 사용 (성능 개선)
+    req.user = { id: payload.userId };
 
-    if (!user) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        error: ERROR_MESSAGE.USER_NOT_FOUND_FROM_TOKEN,
-      });
+    // 4. 토큰 만료 5분 전이면 자동 갱신
+    if (shouldRefreshToken(payload) && refreshToken) {
+      const newTokens = await refreshTokens(refreshToken);
+      if (newTokens) {
+        setAuthCookies(res, newTokens);
+      }
     }
 
-    // 4. req.user에 사용자 정보 저장
-    req.user = user;
-
-    // 5. 다음 미들웨어/핸들러로 진행
     next();
   } catch (error) {
-    console.error('인증 미들웨어 오류:', error);
-    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
-      error: ERROR_MESSAGE.AUTH_FAILED,
-    });
+    next(error);
   }
 };

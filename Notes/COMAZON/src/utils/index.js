@@ -5,7 +5,7 @@ export {
   generateAccessToken,
   generateRefreshToken,
   verifyToken,
-  //shouldRefreshToken,
-  //refreshTokens,   // 나중에 추가 jwt.util.js에 반영될 경우
+  shouldRefreshToken,
+  refreshTokens, // 나중에 추가 jwt.util.js에 반영될 경우
 } from './jwt.util.js';
 export { setupGracefulShutdown } from './graceful-shutdown.util.js';
