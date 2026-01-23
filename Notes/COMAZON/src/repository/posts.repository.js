@@ -15,6 +15,16 @@ function findPostById(id, include = null) {
   });
 }
 
+// 특정 작성자의 게시된 글들 조회 ← 새로 추가!
+export const findPublishedPostsByAuthor = async (authorId) => {
+  return await prisma.post.findMany({
+    where: {
+      authorId: authorId,
+      published: true,
+    },
+  });
+};
+
 // 모든 게시글 조회
 function findAllPosts(include = null) {
   return prisma.post.findMany({

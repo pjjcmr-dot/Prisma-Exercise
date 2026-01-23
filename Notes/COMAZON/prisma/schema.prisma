@@ -15,7 +15,7 @@ model User {
   id        String    @id @default(cuid()) // 보안상 유리한 아이디  생성 cuid //! String type 유저 아이디도 넘버가 아닌 스트링으로 모두 전환해야함 유저 레포지토리 특정사용자 조회 등 부분 수정 해야함 문자열 또는 숫자형 변경시 반드시
   email     String    @unique // 이메일 중복 불가 라는 뜻
   name      String? // 선택적
-  password  String    // 인증 구현
+  password  String // 인증 구현
   posts     Post[] // 동일 이름 여러명 가능하다는 뜻 1:N
   createdAt DateTime  @default(now()) // 자동으로 션재시간 저장 기능
   updatedAt DateTime  @updatedAt // 정보 수정될때 마다 자동으로 현재 시간으로 정보 업데이트
@@ -34,9 +34,7 @@ model Post {
   updatedAt DateTime  @updatedAt // 정보 수정될때 마다 자동으로 현재 시간으로 정보 업데이트
   comments  Comment[]
 
-  @@index([createdAt]) // 날짜 정렬용
-  @@index([published]) // 필터링용
-  @@index([authorId]) // 작성자 조회용
+  @@index([createdAt, published, authorId]) // 작성자 조회용
 }
 
 // 새로운 Comment 모델
@@ -50,14 +48,3 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-
-
-
-
-
-
-
-
-
-
