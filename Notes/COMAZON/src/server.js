@@ -1,9 +1,9 @@
 import express from 'express';
-import cookieParser from 'cookie-parser'; //!추가
-import { errorHandler } from './middlewares/error-handler.middleware.js'; //! 추가
 import { prisma } from '#db/prisma.js';
 import { config } from '#config';
 import { router as apiRouter } from './routes/index.js';
+import cookieParser from 'cookie-parser'; //!추가
+import { errorHandler, cors } from './middlewares/error-handler.middleware.js'; //! 추가
 import { setupGracefulShutdown } from '#utils/index.js'; //! 추가3, 4
 
 const app = express();
@@ -13,6 +13,9 @@ const app = express();
 app.use(express.json());
 // 쿠키 파싱(중요!)
 app.use(cookieParser());
+
+// cors
+app.use(cors); // 추가
 
 // 라우터 등록
 app.use('/api', apiRouter); //! 기존 내용 삭제 후 수정
@@ -39,10 +42,10 @@ const server = app.listen(config.PORT, () => {
 // Graceful shutdown 설정
 setupGracefulShutdown(server, prisma);
 
-process.on('SIGINT', async () => {
-  await prisma.$disconnect();
-  process.exit(0);
-});
+// process.on('SIGINT', async () => {
+//   await prisma.$disconnect();
+//   process.exit(0);
+// });
 
 //! 회원가입 테스트
 //성공케이스
